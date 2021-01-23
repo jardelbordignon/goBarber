@@ -9,7 +9,7 @@ import {
   IFindAllInDayFromProviderDTO
 } from './../IAppointmentDTOs'
 
-class FakeAppointmentsRepository implements IAppointmentsRepository {
+export default class FakeAppointmentsRepository implements IAppointmentsRepository {
   private appointments: Appointment[] = []
 
   public findAll(): Appointment[] {
@@ -58,4 +58,4 @@ class FakeAppointmentsRepository implements IAppointmentsRepository {
     return appointment
   }
 }
-export default FakeAppointmentsRepository
+

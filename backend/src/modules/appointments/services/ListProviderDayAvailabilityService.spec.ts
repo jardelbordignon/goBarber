@@ -1,12 +1,12 @@
-import FakeAppointmentRepository from '@modules/appointments/repositories/fakes/FakeAppointmentRepository';
+import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes/FakeAppointmentsRepository';
 import ListProviderDayAvailabilityService from './ListProviderDayAvailabilityService'
 
-let fakeAppointmentRepository: FakeAppointmentRepository
+let fakeAppointmentRepository: FakeAppointmentsRepository
 let listProviderDayAvailabilityService: ListProviderDayAvailabilityService
 
 describe('ListProviderDayAvailability', () => { 
   beforeEach(() => {
-    fakeAppointmentRepository = new FakeAppointmentRepository()
+    fakeAppointmentRepository = new FakeAppointmentsRepository()
     listProviderDayAvailabilityService = new ListProviderDayAvailabilityService(
       fakeAppointmentRepository
     )

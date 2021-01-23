@@ -1,14 +1,23 @@
-import FakeAppointmentRepository from '@modules/appointments/repositories/fakes/FakeAppointmentRepository'
+import 'reflect-metadata'
+
 import AppError from '@shared/errors/AppError'
 import CreateAppointmentsService from './CreateAppointmentsService'
+import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes/FakeAppointmentsRepository'
+import FakeNotificationsRepository from '@modules/notifications/repositories/fakes/FakeNotificationsRepository'
 
-let fakeRespository: FakeAppointmentRepository
+let fakeNotificationsRepository: FakeNotificationsRepository
+let fakeAppointmentsRepository: FakeAppointmentsRepository
 let createAppointmentsService: CreateAppointmentsService
 
 describe('Appointments', () => { // describe para agrupar os testes
   beforeEach(() => {
-    fakeRespository = new FakeAppointmentRepository()
-    createAppointmentsService = new CreateAppointmentsService(fakeRespository)
+    fakeAppointmentsRepository = new FakeAppointmentsRepository()
+    fakeNotificationsRepository = new FakeNotificationsRepository()
+
+    createAppointmentsService = new CreateAppointmentsService(
+      fakeAppointmentsRepository,
+      fakeNotificationsRepository
+    )
   })
 
 
