@@ -2,6 +2,7 @@ import 'reflect-metadata'
 import express, {Request, Response, NextFunction} from 'express'
 import 'express-async-error'
 import cors from 'cors'
+import { errors as celebrateErrors } from 'celebrate'
 
 import configMulter from '@config/multer'
 import AppError from '@shared/errors/AppError'
@@ -18,6 +19,8 @@ app.use(cors())
 app.use('/files', express.static(configMulter.tmpFolder))
 
 app.use(routes)
+
+app.use(celebrateErrors())
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     // if (banned.indexOf(message.author.username) >= 0) {

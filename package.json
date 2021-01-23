@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "celebrate": "^13.0.4"
+  },
+  "devDependencies": {
+    "@types/hapi__joi": "^17.1.6"
+  }
+}
