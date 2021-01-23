@@ -1,9 +1,10 @@
-import { startOfHour, isBefore, getHours } from 'date-fns'
+import { startOfHour, isBefore, getHours, format } from 'date-fns'
 import { injectable, inject } from 'tsyringe'
 
 import Appointment from '../infra/typeorm/entities/Appointment'
 import { ICreateAppointmentDTO } from '../repositories/IAppointmentDTOs'
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository'
+import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository'
 
 import AppError from '@shared/errors/AppError'
 
@@ -12,7 +13,10 @@ export default class CreateAppointmentsService {
 
   constructor(
     @inject('AppointmentsRepository')
-    private repository: IAppointmentsRepository
+    private appointmentRepository: IAppointmentsRepository,
+    
+    @inject('NotificationsRepository')
+    private notificationsRepository: INotificationsRepository
   ){}
 
   public async execute({ provider_id, user_id, datetime }: ICreateAppointmentDTO): Promise<Appointment> {
@@ -30,15 +34,26 @@ export default class CreateAppointmentsService {
     if (getHours(startHour) < 8 || getHours(startHour) > 17)
       throw new AppError('Não é possível fazer um agendamento fora do horário comercial')
     
-    const findAppointmentInSameHour = await this.repository.findByDatetime(startHour)
+    const findAppointmentInSameHour = await this.appointmentRepository.findByDatetime(startHour)
     
-    console.log(findAppointmentInSameHour)
     if( findAppointmentInSameHour )
       throw new AppError('Esse horário já foi agendado')
 
-    const Appointment = this.repository.create({ provider_id, user_id, datetime: startHour })
+    const appointment = await this.appointmentRepository.create({
+      provider_id,
+      user_id,
+      datetime: startHour
+    })
 
-    return Appointment
+    const dateFormatted = format(startHour, "dd/MM/yyyy 'às' HH:mm'h'")
+
+    await this.notificationsRepository.create({
+      recipient_id: provider_id,
+      content: 'Novo agendamento para dia '+dateFormatted
+    }) 
+
+    return appointment
+
   }
 
 }
