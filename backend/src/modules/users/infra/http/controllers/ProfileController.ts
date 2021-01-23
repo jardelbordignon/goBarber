@@ -25,8 +25,6 @@ export default class ProfileController {
 
     const { name, email, old_password, password } = req.body
 
-    console.log(name, email, old_password, password)
-  
     const service = container.resolve(UpdateProfileService)
   
     const user = await service.execute({user_id, name, email, old_password, password})

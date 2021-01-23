@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import multer from 'multer'
+import { celebrate, Joi } from 'celebrate'
 
 import configMulter from '@config/multer'
 import checkAuthentication from '../middlewares/checkAuthentication'
@@ -11,7 +12,17 @@ const upload = multer(configMulter)
 
 usersRoutes.get('/', controller.index)
 
-usersRoutes.post('/', controller.create)
+usersRoutes.post(
+  '/',
+  celebrate({
+    body: {
+      nome: Joi.string().required(),
+      email: Joi.string().email().required(),
+      password: Joi.string().required()
+    }
+  }),
+  controller.create
+)
 
 usersRoutes.patch('/avatar', 
   checkAuthentication, 
