@@ -1,0 +1,19 @@
+import fs from 'fs'
+import IStorageProvider from '../models/IStorageProvider'
+
+class FakeStorageProivder implements IStorageProvider {
+  private storage: string[] = []
+
+  public async saveFile(file: string): Promise<string> {
+    this.storage.push(file)
+    return file
+  }
+
+  public async deleteFile(file: string): Promise<void> {
+    const index = this.storage.indexOf(file)
+    this.storage.splice(index, 1)
+  }
+
+}
+
+export default FakeStorageProivder
