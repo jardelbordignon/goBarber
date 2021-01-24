@@ -5,5 +5,8 @@ build
 .env
 temp/
 
-tmp/*
+ormconfig.json
+
+backend/tmp/*
+web/tmp/*
 !tmp/.gitkeep
