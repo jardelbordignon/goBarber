@@ -22,11 +22,14 @@ interface ISessionResponse {
 class SessionsServices {
 
   constructor(
+
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
+
     @inject('UsersRepository')
     private repository: IUsersRepository,
     
-    @inject('HashProvider')
-    private hashProvider: IHashProvider
+    
     ) {}
 
   public async create({ email, password }: ISessionsProps): Promise<ISessionResponse> {

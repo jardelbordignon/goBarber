@@ -6,7 +6,8 @@
     "outDir": "./dist",                       
     "rootDir": "./src",                       
     "strict": true,                           
-    "strictPropertyInitialization": false,    
+    "strictPropertyInitialization": false,  
+    "allowJs": true, // permite importar js dentro do ts  
     "baseUrl": "./src",                       
     "paths": {
       "@modules/*": ["modules/*"],
